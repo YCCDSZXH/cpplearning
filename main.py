@@ -1,19 +1,36 @@
-x=input("")
-#代码开始
-total=0
-a=[10,9,8,7,6,5,4,3,2,1]
-b=[]
-for i in range(len(x)):
-    if x[i].isdigit():
-        total+=a[i]*int(x[i])
-        b.append(a[i]*int(x[i]))
+def isprime(a):
+    for i in range(2, a):
+        if a % i == 0:
+            return False
     else:
-        total+=10*a[i]
-        b.append(10*a[i])
-for i in range(len(b)):
-    if b[i]%10==b[i] and b[i]!=0:
-        s=b[i]
-total+=s
-if total%11==0:
-    print(x+str(s))
-#代码结束
+        return True
+
+
+x = []
+for n in range(2, i):
+    if isprime(n):
+        x.append(n)
+
+c = 0
+for i in range(4, 100, 2):
+
+    if i % 10 == i:
+        print(i, '=', sep='', end='\t')
+    else:
+        print(i, '=', sep='', end='')
+
+    for a in range(len(x)): # 这操作......
+        for b in range(len(x)):
+            if i == x[a]+x[b]:
+                if x[a] % 10 == x[a]:
+                    print(' ', x[a], '+', sep='', end='')
+                else:
+                    print(x[a], '+', sep='', end='')
+                if x[b] % 10 == b:
+                    print(' ', x[b], sep='', end='')
+                else:
+                    print(x[b], sep='', end='\t')
+                c += 1
+                if c % 5 == 0:
+                    print()
+                break
