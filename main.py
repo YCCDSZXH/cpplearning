@@ -1,36 +1,24 @@
-def isprime(a):
-    for i in range(2, a):
-        if a % i == 0:
-            return False
-    else:
-        return True
+#s3-6用户登录模拟
+users = ( ('Alice', '12345678'), ('Bob','abcdef'),
+           ('Admin','admin'), ('Geoge','123abc'),
+           ('Rose','goog1290'), ('Mike', '98760dns'))
+for i in range(3):
+    strs = input('请输入用户名和密码，以空格分隔：')
+##########补充代码开始##########
+    # 对输入的账号密码进行处理
+    inputinfo = strs.split(' ')
+    
+    if len(inputinfo) == 1:
+        print("格式错误,请输入用户名和密码，以空格分隔：")
+        continue
+    # 开始比对数据
+    for user in users:
+        if inputinfo[0] == user[0] and inputinfo[1] == user[1]:
+            print('登录成功')
+            exit()
+        
 
-
-x = []
-for n in range(2, i):
-    if isprime(n):
-        x.append(n)
-
-c = 0
-for i in range(4, 100, 2):
-
-    if i % 10 == i:
-        print(i, '=', sep='', end='\t')
-    else:
-        print(i, '=', sep='', end='')
-
-    for a in range(len(x)): # 这操作......
-        for b in range(len(x)):
-            if i == x[a]+x[b]:
-                if x[a] % 10 == x[a]:
-                    print(' ', x[a], '+', sep='', end='')
-                else:
-                    print(x[a], '+', sep='', end='')
-                if x[b] % 10 == b:
-                    print(' ', x[b], sep='', end='')
-                else:
-                    print(x[b], sep='', end='\t')
-                c += 1
-                if c % 5 == 0:
-                    print()
-                break
+##########补充代码结束##########
+#请勿修改下面的代码
+else:  #这是for循环的else
+    print('次数用尽，请稍后再试！')
