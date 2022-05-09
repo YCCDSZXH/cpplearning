@@ -6,37 +6,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "(gdb) Launch",
-      "type": "cppdbg",
-      "request": "launch",
-      // Resolved by CMake Tools:
-      "program": "${command:cmake.launchTargetPath}",
-      "args": [],
-      "stopAtEntry": false,
-      "cwd": "${workspaceFolder}",
-      "environment": [
-        {
-          // add the directory where our target was built to the PATHs
-          // it gets resolved by CMake Tools:
-          "name": "PATH",
-          "value": "$PATH:${command:cmake.getLaunchTargetDirectory}"
-        },
-        {
-          "name": "OTHER_VALUE",
-          "value": "Something something"
-        }
-      ],
-      "externalConsole": true,
-      "MIMode": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ]
-    },
-    {
       /* ------ these three options are mandatory ------ */
       // The type of debugger to use for this launch configuration.
       "type": "lldb", // C++ debug
@@ -56,7 +25,8 @@
       /* ------ Many debuggers support some of the following attributes: ------ */
       // executable or file to run when launching the debugger
       // ！！不要在程序和代码的路径及文件名中出现空格！！否则无法调试（我尝试解决这个问题，但真的无法解决）
-      "program": "${fileDirname}/${fileBasenameNoExtension}", // debug的对象(-g编译出来的二进制文件)，需要和.vscode/tasks.json中生成的可执行文件一致
+      // "program": "${fileDirname}/${fileBasenameNoExtension}", // debug的对象(-g编译出来的二进制文件)，需要和.vscode/tasks.json中生成的可执行文件一致
+      "program": "${workspaceRoot}/可执行文件/${fileBasenameNoExtension}", // debug的对象(-g编译出来的二进制文件)，需要和.vscode/tasks.json中生成的可执行文件一致
       // arguments passed to the program to debug
       "args": [], // 比如运行你的程序添加输入参数（argc/argv），需要在这里添加
       // Environment variables to add to the environment for the program
@@ -64,7 +34,7 @@
       // current working directory for finding dependencies and other files
       "cwd": "${workspaceFolder}",
       // break immediately when the program launches
-      "stopAtEntry": false,
+      "stopAtEntry": true,
       // If true, a console is launched for the debuggee.
       // If false, on Linux and Windows, it will appear in the Integrated Console.
       "externalConsole": false,
