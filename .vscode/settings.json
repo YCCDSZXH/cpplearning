@@ -9,12 +9,12 @@
   "files.defaultLanguage": "cpp",
   "window.zoomLevel": 2,
   // 添加希望被忽略的文件,这样一些文件虽然存在于当前工作目录下,但是不会被显示在左侧的文件浏览器里
-  "files.exclude": {
-    // dSYM文件具有调试信息,普通使用的话不看到它就可以了
-    "**/*.dSYM": true,
-    "**/*.out": true,
-    "": true
-  },
+  // "files.exclude": {
+  //   // dSYM文件具有调试信息,普通使用的话不看到它就可以了
+  //   "**/*.dSYM": true,
+  //   "**/*.out": true,
+  //   "": true
+  // },
   // --------------------------------------------------------------------------------------
   // Code Runner
   // To run code:
@@ -46,7 +46,8 @@
     //"cpp": "g++ $fullFileName  $dir\"Tdate.cpp\" -o $dir\"$fileNameWithoutExt\"\".out\" -W -Wall -O2 -std=c++17 && $dir\"$fileNameWithoutExt\"\".out\"",
     // "cpp": "cd $dir && g++ *.cpp -o $dir\"$fileNameWithoutExt\" -W -Wall -O2 -std=c++17 && $dir\"$fileNameWithoutExt\"",
     // "cpp": "g++ *.cpp -o $dir/可执行文件/\"$fileNameWithoutExt\" -W -Wall -O2 -std=c++17 && $dir/可执行文件/\"$fileNameWithoutExt\"",
-    "cpp": "g++ $fullFileName -o $workspaceRoot/可执行文件/\"$fileNameWithoutExt\" -W -Wall -O2 -std=c++17 && $workspaceRoot/可执行文件/\"$fileNameWithoutExt\"",
+    // "cpp": "g++ $fullFileName -o $workspaceRoot/可执行文件/\"$fileNameWithoutExt\" -W -Wall -O2 -std=c++17 && $workspaceRoot/可执行文件/\"$fileNameWithoutExt\"",
+    "cpp": "g++ $dir/*.cpp -o $workspaceRoot/可执行文件/\"$fileNameWithoutExt\" -W -Wall -O2 -std=c++17 && $workspaceRoot/可执行文件/\"$fileNameWithoutExt\"",
     // "cpp": "g++ $fullFileName -o $dir\"$fileNameWithoutExt\" -W -Wall -O2 -std=c++17 && $dir\"$fileNameWithoutExt\"",
     "py": "python3 $fullFileName"
     // <file_to_link>的写法：
@@ -168,7 +169,8 @@
     "type_traits": "cpp",
     "typeinfo": "cpp",
     "utility": "cpp",
-    "__bits": "cpp"
+    "__bits": "cpp",
+    "ranges": "cpp"
   },
   "C_Cpp.clang_format_fallbackStyle": "Google",
   "editor.detectIndentation": false

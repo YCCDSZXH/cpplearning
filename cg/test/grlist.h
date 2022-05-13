@@ -15,8 +15,8 @@
 #define UNVISITED 0
 #define VISITED 1
 
-// #include "link.h"
 #include "graph.h"
+#include "link.h"
 #include "llist.h"
 
 // Edge class for Adjacency List graph representation
@@ -143,28 +143,29 @@ class Graphl : public Graph {
   int getMark(int v) { return mark[v]; }
   void setMark(int v, int val) { mark[v] = val; }
 
-  int getInDegree(int v)  // æ±‚é¡¶ç‚¹vçš„å…¥åº¦
+  int getInDegree(int v)  // Çó¶¥µãvµÄÈë¶È
   {
     int result = 0;
 
-    //............... åœ¨æ­¤è¡Œä»¥ä¸‹æ’å…¥è¡¥å……ä»£ç 
-    for (int i = 0; i < numVertex; i++) {
-      if (isEdge(i, v)) result++;
+    //............... ÔÚ´ËĞĞÒÔÏÂ²åÈë²¹³ä´úÂë
+    for (int i = 0; i < n(); ++i) {
+      if (isEdge(i, v)) ++result;
     }
-    
-    //............... åœ¨æ­¤è¡Œä»¥ä¸Šæ’å…¥è¡¥å……ä»£ç 
+
+    //............... ÔÚ´ËĞĞÒÔÉÏ²åÈë²¹³ä´úÂë
     return result;
   }
 
-  int getOutDegree(int v)  // æ±‚é¡¶ç‚¹vçš„å‡ºåº¦
+  int getOutDegree(int v)  // Çó¶¥µãvµÄ³ö¶È
   {
     int result = 0;
-    //............... åœ¨æ­¤è¡Œä»¥ä¸‹æ’å…¥è¡¥å……ä»£ç 
+    //............... ÔÚ´ËĞĞÒÔÏÂ²åÈë²¹³ä´úÂë
     for (vertex[v]->moveToStart(); vertex[v]->currPos() < vertex[v]->length();
-         vertex[v]->next()) {
-      result++;
+         vertex[v]->next())  // Check whole list
+    {
+      ++result;
     }
-    //............... åœ¨æ­¤è¡Œä»¥ä¸Šæ’å…¥è¡¥å……ä»£ç 
+    //............... ÔÚ´ËĞĞÒÔÉÏ²åÈë²¹³ä´úÂë
     return result;
   }
 };
