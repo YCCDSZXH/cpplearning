@@ -74,6 +74,8 @@ class option {
   void AddEdgetoMST(int v1, int v2) {
     cout << "Add edge " << v1 << " to " << v2 << "\n";
   }
+  
+  
   void Prim(int* D, int s)  // Prim's MST algorithm
   {
     int V[G->n()];
