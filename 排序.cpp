@@ -114,7 +114,7 @@ void Merge(int *A,int *L,int leftCount,int *R,int rightCount) {
 	while(j < rightCount) A[k++] = R[j++];
     print(A,9);
 }
- 
+
 // Recursive function to sort an array of integers.
 void MERsort(int *A,int n) {
 	int mid,i, *L, *R;
