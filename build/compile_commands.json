@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/ubuntu/CppLearning/build",
-  "command": "/usr/bin/g++    -g   -o CMakeFiles/cpplearning.dir/main.cpp.o -c /home/ubuntu/CppLearning/main.cpp",
-  "file": "/home/ubuntu/CppLearning/main.cpp"
-}
-]

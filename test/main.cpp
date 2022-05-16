@@ -1,148 +1,110 @@
-void DFS(int v)  // Depth first search
-{
-  G->setMark(v, VISITED);
+#include <algorithm>
+#include <iostream>
 
-  for (int w = G->first(v); w < G->n(); w = G->next(v, w))
+using namespace std;
 
-    if (G->getMark(w) == UNVISITED) DFS(w);
+int InsertSort(int array[], int left, int right);
+int GetPivotIndex(int array[], int left, int right);
+int Partition(int array[], int left, int right, int pivot_index);
+int BFPRT(int array[], int left, int right, int k);
 
-  PostVisit(v);
+int main() {
+  int k = 8;  // 1 <= k <= array.size
+  int array[20] = {11, 9, 10, 1, 13, 8,  15, 0, 16, 2,
+                   17, 5, 14, 3, 6,  18, 12, 7, 19, 4};
+
+  cout << "原数组：";
+  for (int i = 0; i < 20; i++) cout << array[i] << " ";
+  cout << endl;
+
+  // 因为是以 k 为划分，所以还可以求出第 k 小值
+  cout << "第 " << k << " 小值为：" << array[BFPRT(array, 0, 19, k)] << endl;
+
+  cout << "变换后的数组：";
+  for (int i = 0; i < 20; i++) cout << array[i] << " ";
+  cout << endl;
+
+  return 0;
 }
-1.grlist.h int getInDegree(int v)  // 求顶点v的入度
-{
-  int result = 0;
 
-  //............... 在此行以下插入补充代码
-  for (int i = 0; i < n(); i++) {
-    if (isEdge(i, v)) result++;
+/**
+ * 对数组 array[left, right] 进行插入排序，并返回 [left, right]
+ * 的中位数。
+ */
+int InsertSort(int array[], int left, int right) {
+  int temp;
+  int j;
+
+  for (int i = left + 1; i <= right; i++) {
+    temp = array[i];
+    j = i - 1;
+
+    while (j >= left && array[j] > temp) {
+      array[j + 1] = array[j];
+      j--;
+    }
+
+    array[j + 1] = temp;
   }
-  //............... 在此行以上插入补充代码
-  return result;
+
+  return ((right - left) >> 1) + left;
 }
 
-int getOutDegree(int v)  // 求顶点v的出度
-{
-  int result = 0;
-  //............... 在此行以下插入补充代码
-  result = vertex[v]->length();
-  //............... 在此行以上插入补充代码
-  return result;
-}
+/**
+ * 数组 array[left, right] 每五个元素作为一组，并计算每组的中位数，
+ * 最后返回这些中位数的中位数下标（即主元下标）。
+ *
+ * @attention 末尾返回语句最后一个参数多加一个 1 的作用其实就是向上取整的意思，
+ * 这样可以始终保持 k 大于 0。
+ */
+int GetPivotIndex(int array[], int left, int right) {
+  if (right - left < 5) return InsertSort(array, left, right);
 
-2.grmat.h int getInDegree(int v)  // 求顶点v的入度
-{
-  int result = 0;
+  int sub_right = left - 1;
 
-  //............... 在此行以下插入补充代码
-  for (int i = 0; i < numVertex; i++) {
-    if (matrix[i][v] != 0) result++;
+  // 每五个作为一组，求出中位数，并把这些中位数全部依次移动到数组左边
+  for (int i = left; i + 4 <= right; i += 5) {
+    int index = InsertSort(array, i, i + 4);
+    swap(array[++sub_right], array[index]);
   }
-  //............... 在此行以上插入补充代码
-  return result;
+
+  // 利用 BFPRT 得到这些中位数的中位数下标（即主元下标）
+  return BFPRT(array, left, sub_right, ((sub_right - left + 1) >> 1) + 1);
 }
 
-int getOutDegree(int v)  // 求顶点v的出度
-{
-  int result = 0;
-  //............... 在此行以下插入补充代码
-  for (int i = 0; i < numVertex; i++) {
-    if (matrix[v][i] != 0) result++;
+/**
+ * 利用主元下标 pivot_index 进行对数组 array[left, right] 划分，并返回
+ * 划分后的分界线下标。
+ */
+int Partition(int array[], int left, int right, int pivot_index) {
+  swap(array[pivot_index], array[right]);  // 把主元放置于末尾
+
+  int partition_index = left;  // 跟踪划分的分界线
+  for (int i = left; i < right; i++) {
+    if (array[i] < array[right]) {
+      swap(array[partition_index++], array[i]);  // 比主元小的都放在左侧
+    }
   }
-  //............... 在此行以上插入补充代码
-  return result;
+
+  swap(array[partition_index], array[right]);  // 最后把主元换回来
+
+  return partition_index;
 }
 
-3.DFS void DFS(int v, void (*PreVisit)(int v), void (*PostVisit)(int v),
-               void (*Visiting)(int v))  // Depth first search
-{
-  PreVisit(v);  // Take appropriate action 前向遍历
+/**
+ * 返回数组 array[left, right] 的第 k 小数的下标
+ */
+int BFPRT(int array[], int left, int right, int k) {
+  int pivot_index = GetPivotIndex(
+      array, left, right);  // 得到中位数的中位数下标（即主元下标）
+  int partition_index =
+      Partition(array, left, right, pivot_index);  // 进行划分，返回划分边界
+  int num = partition_index - left + 1;
 
-  Visiting(v);
-
-  G->setMark(v, VISITED);
-
-  for (int w = G->first(v); w < G->n(); w = G->next(v, w))
-
-    if (G->getMark(w) == UNVISITED)
-
-      DFS(w, (*PreVisit), (*PostVisit), (*Visiting));
-
-  PostVisit(v);
-}
-
-4.BFS void BFS(int start, void (*PreVisit)(int v), void (*PostVisit)(int v),
-               void (*Visiting)(int v)) {
-  int v = 0, w = 0;
-
-  queue<int> Q;
-
-  Q.push(start);  // Initialize Q 初始化队列Q
-
-  G->setMark(start, VISITED);
-
-  while (Q.size() != 0) {  // Process all vertices on Q  处理Q中所有顶点
-
-    v = Q.front();
-
-    Q.pop();
-
-    if (v == start) PreVisit(v);
-
-    Visiting(v);
-
-    for (w = G->first(v); w < G->n(); w = G->next(v, w))
-
-      if (G->getMark(w) == UNVISITED) {
-        PreVisit(w);
-
-        G->setMark(w, VISITED);
-
-        Q.push(w);
-      }
-
-    PostVisit(v);
-  }
-}
-
-5. void Dijkstra1(int* D, int s) {
-  int i, v, w;
-
-  for (i = 0; i < G->n(); i++) {  // Process the vertices 处理节点
-
-    v = minVertex(D);
-
-    if (D[v] == INFINITY) return;  // Unreachable vertices不可达节点
-
-    G->setMark(v, VISITED);
-
-    for (w = G->first(v); w < G->n(); w = G->next(v, w))
-
-      if (D[w] > (D[v] + G->weight(v, w))) D[w] = D[v] + G->weight(v, w);
-  }
-}
-
-6. void Prim(int* D, int s)  // Prim's MST algorithm
-{
-  int V[G->n()];  // Store closest vertex 存储最近节点
-
-  int i, w;
-
-  for (i = 0; i < G->n(); i++) {  // Process the vertices 处理节点
-
-    int v = minVertex(D);
-
-    G->setMark(v, VISITED);
-
-    if (v != s) AddEdgetoMST(V[v], v);  // Add edge to MST 向MST中添加边
-
-    if (D[v] == INFINITY) return;  // Unreachable vertices 不可达节点
-
-    for (w = G->first(v); w < G->n(); w = G->next(v, w))
-
-      if (D[w] > G->weight(v, w)) {
-        D[w] = G->weight(v, w);  // Update distance 更新距离
-
-        V[w] = v;  // Where it came from记录节点
-      }
-  }
+  if (num == k)
+    return partition_index;
+  else if (num > k)
+    return BFPRT(array, left, partition_index - 1, k);
+  else
+    return BFPRT(array, partition_index + 1, right, k - num);
 }
