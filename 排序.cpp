@@ -2,7 +2,7 @@
 using namespace std;
 int dlta[3] = {5, 3, 1};
 void print(int A[], int n) {
-  for (int i = 0; i < n; i++) cout << A[i] << ' ';
+  for (int i = 0; i < n; i++) cout << A[i] << "\t";
   cout << endl;
 }
 void swap(int& a, int& b) {
@@ -97,49 +97,36 @@ void MERsort(int arr[], int l, int r) {
   MERsort(arr, q + 1, r);
   Merge(arr, l, q, r);
 }
-void Merge(int *A,int *L,int leftCount,int *R,int rightCount) {
 
-	int i,j,k;
- 
-	// i - to mark the index of left aubarray (L)
-	// j - to mark the index of right sub-raay (R)
-	// k - to mark the index of merged subarray (A)
-	i = 0; j = 0; k =0;
- 
-	while(i<leftCount && j< rightCount) {
-		if(L[i]  < R[j]) A[k++] = L[i++];
-		else A[k++] = R[j++];
-	}
-	while(i < leftCount) A[k++] = L[i++];
-	while(j < rightCount) A[k++] = R[j++];
-    print(A,9);
+void Merge2(int arr[], int low, int mid, int high) {
+  // low为第1有序区的第1个元素，i指向第1个元素, mid为第1有序区的最后1个元素
+  int i = low, j = mid + 1, k = 0;  // mid+1为第2有序区第1个元素，j指向第1个元素
+  int* temp = new int[high - low + 1];  // temp数组暂存合并的有序序列
+  while (i <= mid && j <= high) {
+    if (arr[i] <= arr[j])  //较小的先存入temp中
+      temp[k++] = arr[i++];
+    else
+      temp[k++] = arr[j++];
+  }
+  while (i <= mid)  //若比较完之后，第一个有序区仍有剩余，则直接复制到t数组中
+    temp[k++] = arr[i++];
+  while (j <= high)  //同上
+    temp[k++] = arr[j++];
+  for (i = low, k = 0; i <= high;
+       i++, k++)  //将排好序的存回arr中low到high这区间
+    arr[i] = temp[k];
+  delete[] temp;  //释放内存，由于指向的是数组，必须用delete []
+  print(arr, 9);
 }
-
-// Recursive function to sort an array of integers.
-void MERsort(int *A,int n) {
-	int mid,i, *L, *R;
-	if(n < 2) return; // base condition. If the array has less than two element, do nothing.
- 
-	mid = n/2;  // find the mid index.
- 
-	// create left and right subarrays
-	// mid elements (from index 0 till mid-1) should be part of left sub-array
-	// and (n-mid) elements (from mid to n-1) will be part of right sub-array
-	L = new int[mid];
-	R = new int [n - mid];
- 
-	for(i = 0;i<mid;i++) L[i] = A[i]; // creating left subarray
-	for(i = mid;i<n;i++) R[i-mid] = A[i]; // creating right subarray
- 
-	MERsort(L,mid);  // sorting the left subarray
-	MERsort(R,n-mid);  // sorting the right subarray
-	Merge(A,L,mid,R,n-mid);  // Merging L and R into A as sorted list.
-	// the delete operations is very important
-	delete [] R;
-	delete [] L;
+void MergeSort(int arr[], int low, int high) {
+  if (low >= high) {
+    return;
+  }  // 终止递归的条件，子序列长度为1
+  int mid = low + (high - low) / 2;  // 取得序列中间的元素
+  MergeSort(arr, low, mid);          // 对左半边递归
+  MergeSort(arr, mid + 1, high);     // 对右半边递归
+  Merge2(arr, low, mid, high);       // 合并
 }
-
-
 
 int Partition(int* array, int left, int right) {
   int partition_index = left;  // 跟踪划分的分界线
@@ -154,6 +141,8 @@ int Partition(int* array, int left, int right) {
 void QUIsort(int* arr, int l, int r) {
   if (r <= l) return;
   int tmp = Partition(arr, l, r);
+  cout << '|' << arr[tmp] << "|  \t";
+  print(arr, 9);
   QUIsort(arr, l, tmp - 1);
   QUIsort(arr, tmp + 1, r);
 }
@@ -184,7 +173,7 @@ void BuildHeap(int array[], int size) {
 
 void HEAsort(int array[], int size) {
   BuildHeap(array, size);  // 初始化堆
-
+  print(array, size);
   for (int i = size - 1; i > 0; i--) {
     swap(
         array[0],
@@ -200,6 +189,6 @@ void HEAsort(int array[], int size) {
 int main() {
   int arr[9] = {31, 73, 44, 13, 7, 28, 22, 64, 53};
   print(arr, 9);
-  MERsort(arr, 9);
+  HEAsort(arr, 9);
   print(arr, 9);
 }
