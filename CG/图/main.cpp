@@ -45,7 +45,6 @@ int main()
     }
 
 
-
     int fr_vert, to_vert, wt;
     while(cin >> fr_vert >> to_vert >> wt)
     {
