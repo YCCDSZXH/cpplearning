@@ -32,19 +32,19 @@ void Visiting(int v)
 int main()
 {
     int choice;
-    cin >> choice;                   // Ñ¡Ôñ²Ù×÷
+    cin >> choice;                   // é€‰æ‹©æ“ä½œ
 
     Graph* G;
-    int vert_num;                     // Í¼µÄ¶¥µãÊı£¬±àºÅ´Ó0¿ªÊ¼
+    int vert_num;                     // å›¾çš„é¡¶ç‚¹æ•°ï¼Œç¼–å·ä»0å¼€å§‹
     cin >> vert_num;
 
-    int graph_type = 2;               // graph_type=1, ²ÉÓÃÁÙ½ÓÁ´±í±íÊ¾Í¼   graph_type=0, ²ÉÓÃÁÙ½Ó¾ØÕó±íÊ¾Í¼
+    int graph_type = 2;               // graph_type=1, é‡‡ç”¨ä¸´æ¥é“¾è¡¨è¡¨ç¤ºå›¾   graph_type=0, é‡‡ç”¨ä¸´æ¥çŸ©é˜µè¡¨ç¤ºå›¾
     while(graph_type != 0 && graph_type != 1)
         cin >> graph_type;
 
     G = createGraph(graph_type, vert_num);
 
-    char graph_dir = '0';             // graph_dir='D'ÎªÓĞÏòÍ¼ graph_dir='U'ÎªÎŞÏòÍ¼
+    char graph_dir = '0';             // graph_dir='D'ä¸ºæœ‰å‘å›¾ graph_dir='U'ä¸ºæ— å‘å›¾
 
     while(graph_dir != 'D' && graph_dir != 'U')
         cin >> graph_dir;
@@ -67,7 +67,7 @@ int main()
 
     switch(choice)
     {
-    case 1:    //ÇóËùÓĞ½ÚµãµÄÈë¶ÈºÍ³ö¶È
+    case 1:    //æ±‚æ‰€æœ‰èŠ‚ç‚¹çš„å…¥åº¦å’Œå‡ºåº¦
         for(int i = 0; i < G->n(); i++)
             cout << G->getInDegree(i) << " ";
         cout << endl;
@@ -76,14 +76,14 @@ int main()
             cout << G->getOutDegree(i) << " ";
         cout << endl;
         break;
-    case 2:   // Éî¶ÈÓÅÏÈËÑË÷
+    case 2:   // æ·±åº¦ä¼˜å…ˆæœç´¢
         for (int v = 0; v < G->n(); v++)
         {
             if (G->getMark(v) == UNVISITED)
                 it->DFS(v, PreVisit, PostVisit, Visiting);
         }
         break;
-    case 3:    //¹ã¶ÈÓÅÏÈËÑË÷
+    case 3:    //å¹¿åº¦ä¼˜å…ˆæœç´¢
         for (int v = 0; v < G->n(); v++)
         {
             if (G->getMark(v) == UNVISITED)
@@ -91,7 +91,7 @@ int main()
         }
         break;
 
-    case 4:   // DijkstraÇó×î¶ÌÂ·(´Ó0µã³ö·¢ÖÁÆäËû¸÷µã)
+    case 4:   // Dijkstraæ±‚æœ€çŸ­è·¯(ä»0ç‚¹å‡ºå‘è‡³å…¶ä»–å„ç‚¹)
 
         for (int i = 0; i < G->n(); i++) // Initialize
             D[i] = INFINITY;
@@ -110,7 +110,7 @@ int main()
         cout << endl;
         break;
 
-    case 5:   // primËã·¨Çó×îĞ¡Ö§³ÅÊ÷(´Ó0µã³ö·¢ÖÁÆäËû¸÷µã)
+    case 5:   // primç®—æ³•æ±‚æœ€å°æ”¯æ’‘æ ‘(ä»0ç‚¹å‡ºå‘è‡³å…¶ä»–å„ç‚¹)
 
         for (int i = 0; i < G->n(); i++) // Initialize
             D[i] = INFINITY;

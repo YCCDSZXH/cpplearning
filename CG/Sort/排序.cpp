@@ -164,6 +164,7 @@ void Down(int array[], int i, int n) {  // 最后结果就是大顶堆
   }
 }
 
+
 void BuildHeap(int array[], int size) {
   for (int i = size / 2 - 1; i >= 0;
        i--) {  // 倒数第二排开始, 创建大顶堆，必须从下往上比较
