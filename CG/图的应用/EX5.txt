@@ -1,0 +1,160 @@
+1.grlist.h
+    int getInDegree(int v)   // 求顶点v的入度
+    {
+        int result = 0;
+
+        //............... 在此行以下插入补充代码
+		for(int i=0;i<n();i++)
+		{
+				if(isEdge(i,v)) result++;
+		}
+        //............... 在此行以上插入补充代码
+        return result;
+    }
+
+    int getOutDegree(int v)    // 求顶点v的出度
+    {
+        int result=0;
+         //............... 在此行以下插入补充代码
+		result = vertex[v]->length();
+        //............... 在此行以上插入补充代码
+        return result;
+    }
+
+2.grmat.h
+    int getInDegree(int v)   // 求顶点v的入度
+    {
+        int result = 0;
+
+        //............... 在此行以下插入补充代码
+        for (int i = 0; i < numVertex; i++)
+        {
+        	if (matrix[i][v] != 0)
+        	result++;
+		}
+        //............... 在此行以上插入补充代码
+        return result;
+    }
+
+    int getOutDegree(int v)    // 求顶点v的出度
+    {
+        int result = 0;
+        //............... 在此行以下插入补充代码
+        for (int i = 0; i < numVertex; i++)
+        {
+        	if (matrix[v][i] != 0)
+        	result++;
+		}
+        //............... 在此行以上插入补充代码
+        return result;
+    }
+
+3.DFS
+    void DFS(int v, void (*PreVisit)(int v), void (*PostVisit)(int v), void (*Visiting)(int v))   // Depth first search
+    {
+	PreVisit(v);           // Take appropriate action 前向遍历
+
+	Visiting(v);
+
+ 	G->setMark(v, VISITED);
+
+  	for (int w=G->first(v); w<G->n(); w = G->next(v,w))
+
+    		if(G->getMark(w) == UNVISITED)
+    			
+    			DFS(w,(*PreVisit), (*PostVisit), (*Visiting));
+    		
+    	PostVisit(v);
+    }
+
+4.BFS
+    void BFS(int start, void (*PreVisit)(int v), void (*PostVisit)(int v), void (*Visiting)(int v))
+    {
+	int v=0, w=0;
+		
+	queue<int> Q;
+		
+	Q.push(start);         // Initialize Q 初始化队列Q
+		
+	G->setMark(start, VISITED);
+		
+	while(Q.size() != 0) { //Process all vertices on Q  处理Q中所有顶点
+			
+		v =Q.front();
+			
+		Q.pop();
+			
+		if(v==start) PreVisit(v);
+		
+		Visiting(v);
+		
+		for(w=G->first(v); w<G->n(); w = G->next(v,w))
+		
+			if(G->getMark(w) == UNVISITED) {
+		      	
+		      		PreVisit(w);  
+		
+				G->setMark(w, VISITED);
+		
+				Q.push(w);
+		
+				}
+		      
+		PostVisit(v);
+	}
+    }
+
+5.
+    void Dijkstra1(int* D, int s)
+    {
+
+		  int i, v, w;
+		
+		  for (i=0;i<G->n(); i++) {      // Process the vertices 处理节点
+		
+		    v =minVertex(D);
+		
+		    if (D[v] ==INFINITY) return; //Unreachable vertices不可达节点
+		
+		   G->setMark(v, VISITED);
+		
+		    for (w=G->first(v); w<G->n(); w =G->next(v,w))
+		
+		      if (D[w]> (D[v] + G->weight(v, w)))
+		
+		        D[w] = D[v] + G->weight(v, w);
+		
+		  }
+    }
+
+6.
+    void Prim(int* D, int s)   // Prim's MST algorithm
+    {
+	  int V[G->n()];                     // Store closest vertex 存储最近节点
+	
+	  int i, w;
+	
+	  for (i=0;i<G->n(); i++) {         // Process the vertices 处理节点
+	
+	    int v =minVertex(D);
+	
+	   G->setMark(v, VISITED);
+	
+	    if (v != s)
+	
+	     AddEdgetoMST(V[v], v);         // Add edge to MST 向MST中添加边
+	
+	    if (D[v] ==INFINITY) return;    // Unreachable vertices 不可达节点
+	
+	    for(w=G->first(v); w<G->n(); w = G->next(v,w))
+	
+	      if (D[w]> G->weight(v,w)) {
+	
+	        D[w] =G->weight(v,w);       // Update distance 更新距离
+	
+	        V[w] =v;                    // Where it came from记录节点
+	
+	      }
+	
+	  }
+    }

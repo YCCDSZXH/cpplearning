@@ -156,7 +156,10 @@
     "ranges": "cpp"
   },
   "C_Cpp.clang_format_fallbackStyle": "Google",
-  "editor.detectIndentation": false
+  "editor.detectIndentation": false,
+  "yaml.schemas": {
+    "https://gitpod.io/schemas/gitpod-schema.json": "file:///workspace/cpplearning/.gitpod.yml"
+  }
   // "clang-format.executable": "/opt/homebrew/Cellar/clang-format"
   //"cmake.sourceDirectory": "${workspaceFolder}/project/test1",
   //"C_Cpp.errorSquiggles": "Disabled",
