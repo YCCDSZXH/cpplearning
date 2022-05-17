@@ -1,62 +1,47 @@
-#include <iomanip>
-#include <iostream>
-
 #include "Graph_test.h"
+#include "grlist.h"
 #include "grmat.h"
-using namespace std;
 
-void PreVisit(int v) { cout << "PreVisit vertex " << v << "\n"; }
-
-void PostVisit(int v) { cout << "PostVisit vertex " << v << "\n"; }
-
-void Visiting(int v) { cout << "Visiting vertex " << v << "\n"; }
+Graph *createGraph(int graph_type, int vert_num);
 
 int main() {
-  int m, n, fr_vert, to_vert, wt;
-  cin >> m >> n;
-  Graph* G;
-  G = new Graphm(m);
-  for (int i = 0; i < n; ++i) {
+  int VertexNum, EdgeNum;
+  cin >> VertexNum >> EdgeNum;  //µ„ ˝°¢±ﬂ ˝
+  Graph *G;
+  G = createGraph(0, VertexNum);
+
+  int fr_vert, to_vert, wt;
+  for (int i = 0; i < EdgeNum; i++) {
     cin >> fr_vert >> to_vert >> wt;
-    G->setEdge(fr_vert - 1, to_vert - 1, wt);
+    G->setEdge(fr_vert, to_vert, wt);
+    G->setEdge(to_vert, fr_vert, wt);
   }
-  cin >> fr_vert >> to_vert;
-  option* it = new option(G);
-  for (int v = 0; v < G->n(); v++) G->setMark(v, UNVISITED);
-  // for (int v = 0; v < G->n(); v++)
-  //   if (G->getMark(v) == UNVISITED) it->DFS(0, PreVisit, PostVisit,
-  //   Visiting);
+
+  option *it = new option(G);
+  for (int v = 0; v < G->n(); v++) {
+    G->setMark(v, UNVISITED);
+  }
+
   int D[G->n()];
-  for (int i = 0; i < G->n(); i++)  // Initialize
+  for (int i = 0; i < G->n(); i++) {
     D[i] = INFINITY;
-  D[fr_vert - 1] = 0;
+  }
+  D[0] = 0;
 
-  double* res = it->Dijkstra2(D, fr_vert - 1, to_vert - 1);
+  int start, end;
+  cin >> start >> end;
+  it->Dijkstra1(D, start);
+  double result;
+  result = 0;
+  cout << result;
+}
 
-  // for (int k = 0; k < G->n(); k++) {
-  //   if (D[k] != INFINITY)
-  //     cout << D[k] << " ";
-  //   else
-  //     cout << "Infinity"
-  //          << " ";
-  // }
-  // cout << endl;
-  // for (int i = 1; i < res[0]; i++) {
-  //   cout << res[i];
-  // }
-  long double money = 100;
-  // for (int j = res[0] - 1; j > 1; j--) {
-  //   // cout << res[j - 1] << ' ' << res[j] << ' ' << G->weight(res[j - 1],
-  //   // res[j])
-  //   //      << endl;
-  //   money /= (1 - double(G->weight(res[j - 1], res[j])) / 100);
-  //   // printf("%.8f\n", money);
-  //   // cout << money;
-  // }
-  for (int i = 0; i < G->n()+1; i++) {
-      cout << res[i] << ' ';
-    }
-  cout << fixed << setprecision(8) << money/res[to_vert-1] << endl;
-  // cout << fixed << setprecision(8) << money;
-  // printf("%.8f\n", money);
+Graph *createGraph(int graph_type, int vert_num) {
+  Graph *g;
+  if (graph_type)
+    g = new Graphl(vert_num);
+  else
+    g = new Graphm(vert_num);
+
+  return g;
 }
