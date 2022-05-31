@@ -23,3 +23,4 @@ for i in range(2, 400, 2):
         if sign == 1: # 用来退出 numb1 的取值的循环
             break
         
+        
